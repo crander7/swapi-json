@@ -1,0 +1,83 @@
+<html lang="en">
+    <head>
+        <title>Swapi-Grow</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/views/main.css">
+    </head>
+    <body>
+        <div class="character">
+            <div>General Info: </div>
+            <div>
+                <span>Name: &nbsp;</span>
+                <span><%= name %></span> </br>
+                <span>Height: &nbsp;</span>
+                <span><%= height %></span> </br>
+                <span>Mass: &nbsp;</span>
+                <span><%= mass %></span> </br>
+                <span>Hair Color: &nbsp;</span>
+                <span><%= hair_color %></span> </br>
+                <span>Skin Color: &nbsp;</span>
+                <span><%= skin_color %></span> </br>
+                <span>Eye Color: &nbsp;</span>
+                <span><%= eye_color %></span> </br>
+                <span>Birth Year: &nbsp;</span>
+                <span><%= birth_year %></span> </br>
+                <span>Gender: &nbsp;</span>
+                <span><%= gender %></span> </br>
+                </br>
+                <div>Data Links: </div>
+                <span>Home World: &nbsp;</span>
+                <a href=<%= homeworld %>><%= homeworld %></a> </br>
+                <span>Films: &nbsp;</span>
+                <% if (films[0]) { %>
+                    <% films.map((film, i) => { %>
+                        <% if (i === 0 && film) { %>
+                            <a href=<%= film %>><%= film %></a> </br>
+                        <% } else { %>
+                            <a href=<%= film %> style="margin-left: 83px"><%= film %></a> </br>
+                        <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <span>n/a</span> </br>
+                <% } %>
+                <span>Species: &nbsp;</span>
+                <% if (species[0]) { %>
+                    <% species.map((sp, i) => { %>
+                        <% if (i === 0 && sp) { %>
+                            <a href=<%= sp %>><%= sp %></a> </br>
+                        <% } else { %>
+                            <a href=<%= sp %> style="margin-left: 54px"><%= sp %></a> </br>
+                        <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <span>n/a</span> </br>
+                <% } %>
+                <span>Vehicles: &nbsp;</span>
+                <% if (vehicles[0]) { %>
+                    <% vehicles.map((vehicle, i) => { %>
+                        <% if (i === 0 && vehicle) { %>
+                            <a href=<%= vehicle %>><%= vehicle %></a> </br>
+                        <% } else { %>
+                            <a href=<%= vehicle %> style="margin-left: 101px"><%= vehicle %></a> </br>
+                        <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <span>n/a</span> </br>
+                <% } %>
+                <span>StarShips: &nbsp;</span>
+                <% if (starships[0]) { %>
+                    <% starships.map((starship, i) => { %>
+                        <% if (i === 0 && starship) { %>
+                            <a href=<%= starship %>><%= starship %></a> </br>
+                        <% } else { %>
+                            <a href=<%= starship %> style="margin-left: 109px"><%= starship %></a> </br>
+                        <% } %>
+                    <% }); %>
+                <% } else { %>
+                    <span>n/a</span> </br>
+                <% } %>
+            </div>
+        </div>
+    </body>
+</html>
