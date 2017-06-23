@@ -14,10 +14,13 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res, next) => {
     res.sendFile(path.resolve(__dirname, 'views/index.html'));
 });
-
 app.get('/characters', apiController.getCharacters);
-app.get('/character/:id', apiController.getCharByName);
+app.get('/character/:id', apiController.getCharById);
 app.get('/planetresidents', apiController.getPlanetResidents);
+
+app.get('/*', (req, res, next) => {
+    res.redirect('/');
+});
 
 app.listen(8085, () => {
     console.log('Server listening on port 8085');

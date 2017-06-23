@@ -13,46 +13,50 @@ const getAllData = (url) => new Promise(async (resolve) => {
     resolve(resp.dataArr);
 });
 
-const getCharByName = async (req, res, next) => {
-    let response = await request.getAsync(`${baseUrl}people/${req.params.id}`);
-    response = JSON.parse(response.body);
-    if (response.detail) res.json({ error: `No Character found with id ${req.params.id}` });
-    else res.render('index', response);
+const getCharById = async (req, res, next) => {
+    if (req.params.id) {
+        let response = await request.getAsync(`${baseUrl}people/${req.params.id}`);
+        response = JSON.parse(response.body);
+        if (response.detail) res.json({ error: `No Character found with id ${req.params.id}` });
+        else res.render('index', response);
+    } else res.json({ error: 'You must include an id number to search' });
 };
 
 const getCharacters = async (req, res, next) => {
-    let tempArr = [];
-    let resp = await pager(`${baseUrl}people`, tempArr);
-    while (resp.dataArr.length < 50 && resp.nextUrl) {
-        resp = await pager(resp.nextUrl, resp.dataArr);
-    }
-    const characters = resp.dataArr;
-    if (req.query.sort) {
-        const sortBy = req.query.sort;
-        const sortedArr = characters.sort((a, b) => {
-            if (sortBy === 'name') return a.name.localeCompare(b.name);
-            else {
-                a[sortBy] = a[sortBy].replace(/,/g, '');
-                b[sortBy] = b[sortBy].replace(/,/g, '');
-                if (a[sortBy] === 'unknown') a[sortBy] = Infinity;
-                else if (b[sortBy] === 'unknown') b[sortBy] = Infinity;
-                if (Number(a[sortBy]) < Number(b[sortBy])) {
-                    if (a[sortBy] === Infinity) a[sortBy] = 'unknown';
-                    if (b[sortBy] === Infinity) b[sortBy] = 'unknown';
-                    return -1;
-                } else if (Number(a[sortBy]) > Number(b[sortBy])) {
-                    if (a[sortBy] === Infinity) a[sortBy] = 'unknown';
-                    if (b[sortBy] === Infinity) b[sortBy] = 'unknown';
-                    return 1;
-                } else {
-                    if (a[sortBy] === Infinity) a[sortBy] = 'unknown';
-                    if (b[sortBy] === Infinity) b[sortBy] = 'unknown';
-                    return 0;
+    const sortBy = req.query.sort;
+    if (sortBy === 'name' || sortBy === 'mass' || sortBy === 'height') {
+        let tempArr = [];
+        let resp = await pager(`${baseUrl}people`, tempArr);
+        while (resp.dataArr.length < 50 && resp.nextUrl) {
+            resp = await pager(resp.nextUrl, resp.dataArr);
+        }
+        const characters = resp.dataArr;
+        if (sortBy) {
+            const sortedArr = characters.sort((a, b) => {
+                if (sortBy === 'name') return a.name.localeCompare(b.name);
+                else {
+                    a[sortBy] = a[sortBy].replace(/,/g, '');
+                    b[sortBy] = b[sortBy].replace(/,/g, '');
+                    if (a[sortBy] === 'unknown') a[sortBy] = Infinity;
+                    else if (b[sortBy] === 'unknown') b[sortBy] = Infinity;
+                    if (Number(a[sortBy]) < Number(b[sortBy])) {
+                        if (a[sortBy] === Infinity) a[sortBy] = 'unknown';
+                        if (b[sortBy] === Infinity) b[sortBy] = 'unknown';
+                        return -1;
+                    } else if (Number(a[sortBy]) > Number(b[sortBy])) {
+                        if (a[sortBy] === Infinity) a[sortBy] = 'unknown';
+                        if (b[sortBy] === Infinity) b[sortBy] = 'unknown';
+                        return 1;
+                    } else {
+                        if (a[sortBy] === Infinity) a[sortBy] = 'unknown';
+                        if (b[sortBy] === Infinity) b[sortBy] = 'unknown';
+                        return 0;
+                    }
                 }
-            }
-        });
-        res.json(sortedArr);
-    } else res.json(characters);
+            });
+            res.json(sortedArr);
+        } else res.json(characters);
+    } else res.json({ error: 'The you can only sort by name, mass, or height' });
 };
 
 const getPlanetResidents = async (req, res, next) => {
@@ -77,7 +81,7 @@ const pager = (url, arr) => new Promise(async (resolve) => {
 });
 
 module.exports = {
-    getCharByName,
+    getCharById,
     getCharacters,
     getPlanetResidents
 };
