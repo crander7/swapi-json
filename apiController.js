@@ -14,8 +14,10 @@ const getAllData = (url) => new Promise(async (resolve) => {
 });
 
 const getCharByName = async (req, res, next) => {
-    const response = await request.getAsync(`${baseUrl}people/${req.params.name}`);
-    res.render('index', JSON.parse(response.body));
+    let response = await request.getAsync(`${baseUrl}people/${req.params.id}`);
+    response = JSON.parse(response.body);
+    if (response.detail) res.json({ error: `No Character found with id ${req.params.id}` });
+    else res.render('index', response);
 };
 
 const getCharacters = async (req, res, next) => {

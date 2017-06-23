@@ -16,7 +16,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/characters', apiController.getCharacters);
-app.get('/character/:name', apiController.getCharByName);
+app.get('/character/:id', apiController.getCharByName);
 app.get('/planetresidents', apiController.getPlanetResidents);
 
 app.listen(8085, () => {
