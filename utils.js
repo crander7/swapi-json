@@ -40,7 +40,8 @@ const getAllData = (url) => new Promise(async (resolve) => {
 });
 
 const cacheCurrent = (time) => {
-    if ((new Date().getTime() - time) <= 3600000) return true;
+    const now = new Date().getTime();
+    if ((now - time) <= 3600000) return true;
     else return false;
 };
 
