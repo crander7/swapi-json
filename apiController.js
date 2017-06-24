@@ -1,13 +1,17 @@
 const utils = require('./utils');
+const characters = require('./cache/characters.json');
+const planets = require('./cache/planets.json');
 
 const baseUrl = 'http://swapi.co/api/';
 
 const getCharByName = async (req, res, next) => {
-    const characters = require('./cache/characters.json');
     let chars = null;
+    utils.clearModule('./cache/characters.json');
+    const characters = require('./cache/characters.json');
     const origParam = req.params.name;
+    const source = req.query.source;
+    if (source === 'api') characters.cacheTime = 0;
     const useCache = utils.cacheCurrent(characters.cacheTime);
-    console.log('use cache', useCache);
     if (useCache) chars = characters.data;
     else chars = await utils.getAllData(`${baseUrl}people`);
     if (origParam) {
@@ -34,11 +38,13 @@ const getCharByName = async (req, res, next) => {
 };
 
 const getCharacters = async (req, res, next) => {
+    utils.clearModule('./cache/characters.json');
     const characters = require('./cache/characters.json');
     let chars = null;
     const sortBy = req.query.sort;
+    const source = req.query.source;
+    if (source === 'api') characters.cacheTime = 0;
     const useCache = utils.cacheCurrent(characters.cacheTime);
-    console.log('use cache', useCache);
     if (useCache) chars = characters.data;
     else chars = await utils.getAllData(`${baseUrl}people`);
     chars.splice(50, chars.length - 50);
@@ -72,14 +78,20 @@ const getCharacters = async (req, res, next) => {
 };
 
 const getPlanetResidents = async (req, res, next) => {
+    utils.clearModule('./cache/characters.json')
+    utils.clearModule('./cache/planets.json');
     const planets = require('./cache/planets.json');
     const characters = require('./cache/characters.json');
     const planetsObj = {};
     let people = null;
     let places = null;
+    const source = req.query.source;
+    if (source === 'api') {
+        planets.cacheTime = 0;
+        characters.cacheTime = 0;
+    }
     const useCharCache = utils.cacheCurrent(characters.cacheTime);
     const usePlanetCache = utils.cacheCurrent(planets.cacheTime);
-    console.log('use char cache', useCharCache, 'use planet cache', usePlanetCache);
     if (useCharCache) people = characters.data;
     else people = await utils.getAllData(`${baseUrl}people`);
     if (usePlanetCache) places = planets.data;

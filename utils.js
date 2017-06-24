@@ -41,14 +41,19 @@ const getAllData = (url) => new Promise(async (resolve) => {
 
 const cacheCurrent = (time) => {
     const now = new Date().getTime();
-    console.log(time, now);
     if ((now - time) <= 3600000) return true;
     else return false;
+};
+
+const clearModule = (mod) => {
+    delete require.cache[require.resolve(mod)];
+    return;
 };
 
 module.exports = {
     normalizeStr,
     getAllData,
     request,
-    cacheCurrent
+    cacheCurrent,
+    clearModule
 };
