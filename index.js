@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const apiController = require('./apiController');
+const cron = require('./cron');
 
 const app = express();
 
@@ -15,12 +16,14 @@ app.get('/', (req, res, next) => {
     res.sendFile(path.resolve(__dirname, 'views/index.html'));
 });
 app.get('/characters', apiController.getCharacters);
-app.get('/character/:id', apiController.getCharById);
+app.get('/character/:name', apiController.getCharByName);
 app.get('/planetresidents', apiController.getPlanetResidents);
 
 app.get('/*', (req, res, next) => {
     res.redirect('/');
 });
+
+cron.start();
 
 app.listen(8085, () => {
     console.log('Server listening on port 8085');

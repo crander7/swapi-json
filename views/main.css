@@ -1,3 +1,33 @@
 .character > div > span {
     margin-left: 30px;
 }
+
+.title {
+    text-align: center;
+    font-size: 30px;
+}
+
+.info-box {
+    margin: 0 auto;
+}
+
+.info-head {
+    display: block;
+    margin-left: -10px;
+    margin-bottom: 10px;
+}
+
+span {
+    margin-left: 20px;
+}
+
+.info-box > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.char-info {
+    display: flex;
+    width: 700px;
+    margin: auto;
+}

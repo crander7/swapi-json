@@ -1,10 +1,25 @@
 {
+  "name": "swapi-grow",
+  "version": "1.0.0",
+  "description": "A simple node app to work with the swapi",
+  "main": "index.js",
   "dependencies": {
     "bluebird": "^3.5.0",
     "cors": "^2.8.3",
+    "cron": "^1.2.1",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "request": "^2.81.0"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@personal.github.com:crander7/swapi-json.git"
+  },
+  "keywords": [],
+  "author": "Craig Andersen",
+  "license": "ISC"
 }
