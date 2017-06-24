@@ -1,13 +1,13 @@
 const utils = require('./utils');
-const planets = require('./cache/planets.json');
-const characters = require('./cache/characters.json');
 
 const baseUrl = 'http://swapi.co/api/';
 
 const getCharByName = async (req, res, next) => {
+    const characters = require('./cache/characters.json');
     let chars = null;
     const origParam = req.params.name;
     const useCache = utils.cacheCurrent(characters.cacheTime);
+    console.log('use cache', useCache);
     if (useCache) chars = characters.data;
     else chars = await utils.getAllData(`${baseUrl}people`);
     if (origParam) {
@@ -34,9 +34,11 @@ const getCharByName = async (req, res, next) => {
 };
 
 const getCharacters = async (req, res, next) => {
+    const characters = require('./cache/characters.json');
     let chars = null;
     const sortBy = req.query.sort;
     const useCache = utils.cacheCurrent(characters.cacheTime);
+    console.log('use cache', useCache);
     if (useCache) chars = characters.data;
     else chars = await utils.getAllData(`${baseUrl}people`);
     chars.splice(50, chars.length - 50);
@@ -70,12 +72,14 @@ const getCharacters = async (req, res, next) => {
 };
 
 const getPlanetResidents = async (req, res, next) => {
+    const planets = require('./cache/planets.json');
+    const characters = require('./cache/characters.json');
     const planetsObj = {};
     let people = null;
     let places = null;
     const useCharCache = utils.cacheCurrent(characters.cacheTime);
     const usePlanetCache = utils.cacheCurrent(planets.cacheTime);
-    console.log(useCharCache, usePlanetCache);
+    console.log('use char cache', useCharCache, 'use planet cache', usePlanetCache);
     if (useCharCache) people = characters.data;
     else people = await utils.getAllData(`${baseUrl}people`);
     if (usePlanetCache) places = planets.data;

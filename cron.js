@@ -5,7 +5,7 @@ const fs = require('fs');
 const baseUrl = 'http://swapi.co/api/';
 
 const dataCache = new CronJob({
-    cronTime: '0 30 * * * *',
+    cronTime: '20 31 * * * *',
     onTick: async () => {
         console.log('cron started');
         const charData = await utils.getAllData(`${baseUrl}people`);

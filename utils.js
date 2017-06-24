@@ -41,6 +41,7 @@ const getAllData = (url) => new Promise(async (resolve) => {
 
 const cacheCurrent = (time) => {
     const now = new Date().getTime();
+    console.log(time, now);
     if ((now - time) <= 3600000) return true;
     else return false;
 };
