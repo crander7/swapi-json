@@ -1,4 +1,3 @@
-/node_modules/
-yarn.lock
-/cache/
-/.vscode/
+node_modules/
+.vscode/
+.DS_STORE

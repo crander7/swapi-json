@@ -1,0 +1,9 @@
+{
+    "port": 3002,
+    "baseUrl": "https://swapi.co/api/",
+    "validSorts": [
+        "name",
+        "height",
+        "mass"
+    ]
+}
